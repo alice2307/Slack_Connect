@@ -2,7 +2,7 @@
 
 A tiny full-stack app to connect a Slack workspace via OAuth, send messages **now** or **schedule** them for later. Built with **Node.js + Express (TS)**, **React (TS)**, and **SQLite**.
 
-## 🚀 Quick Start
+##  Quick Start
 
 **Want to get running fast?** Use our automated startup scripts:
 
@@ -17,7 +17,7 @@ chmod +x startup.sh
 startup.bat
 ```
 
-**⚠️ Important**: After running the script, you'll need to add your Slack app credentials to `backend/.env`. The script will guide you through this!
+** Important**: After running the script, you'll need to add your Slack app credentials to `backend/.env`. The script will guide you through this!
 
 See [STARTUP_README.md](STARTUP_README.md) for details.
 
@@ -28,7 +28,7 @@ See [STARTUP_README.md](STARTUP_README.md) for details.
 - List channels, **send messages immediately**, or **schedule** them.
 - View and **cancel** scheduled messages.
 - Runs locally over **HTTPS** (Slack requires HTTPS redirect URLs).
-## ⚠️ IMPORTANT: Setup Slack App First!
+##  IMPORTANT: Setup Slack App First!
 
 **Before running the startup script, you MUST complete these 2 steps:**
 
@@ -81,7 +81,7 @@ See [STARTUP_README.md](STARTUP_README.md) for details.
 ## 3) Generate local HTTPS certificates (mkcert)
 > Slack requires HTTPS for OAuth redirects, even locally.
 
-**💡 The startup scripts handle this automatically!** But if you need manual setup:
+** The startup scripts handle this automatically!** But if you need manual setup:
 
 ### Quick Install
 **Windows (Chocolatey):**
@@ -113,7 +113,7 @@ mkcert localhost
 
 ## 4) Environment variables
 
-**💡 The startup scripts create these automatically!** Here's how it works:
+** The startup scripts create these automatically!** Here's how it works:
 
 ### What the startup scripts do:
 1. **Create `backend/.env`** with placeholder values if it doesn't exist
@@ -138,7 +138,7 @@ FRONTEND_ORIGIN=http://localhost:5173
 VITE_API_BASE=https://localhost:4000
 ```
 
-### ⚠️ Important: Add Your Slack Credentials!
+###  Important: Add Your Slack Credentials!
 After the startup script runs, you **MUST** edit `backend/.env`:
 1. Replace `your_client_id_here` with your actual Slack Client ID
 2. Replace `your_client_secret_here` with your actual Slack Client Secret
@@ -149,7 +149,7 @@ After the startup script runs, you **MUST** edit `backend/.env`:
 
 ## 5) Install & run (dev)
 
-**💡 The startup scripts handle this automatically!** But if you need manual setup:
+** The startup scripts handle this automatically!** But if you need manual setup:
 
 ### Quick Start
 ```bash
@@ -194,12 +194,12 @@ curl -k https://localhost:4000/health
 ---
 
 ## 6.1) Enhanced UI Features
-- **🤖 Find Bot Name Button**: Automatically appears after connecting to Slack, shows bot name and team info
-- **📋 Auto-refresh Scheduled Messages**: List automatically updates when new messages are scheduled
-- **🔄 Manual Refresh**: "Refresh Scheduled Messages" button for manual updates
-- **📱 Responsive Design**: Modern gradient UI that works on all screen sizes
-- **💬 Smart Error Handling**: Helpful error messages with specific guidance for common issues
-- **🎯 Bot Invite Helper**: Copy-paste ready invite commands and automatic bot invitation attempts
+- ** Find Bot Name Button**: Automatically appears after connecting to Slack, shows bot name and team info
+- ** Auto-refresh Scheduled Messages**: List automatically updates when new messages are scheduled
+- ** Manual Refresh**: "Refresh Scheduled Messages" button for manual updates
+- ** Responsive Design**: Modern gradient UI that works on all screen sizes
+- ** Smart Error Handling**: Helpful error messages with specific guidance for common issues
+- ** Bot Invite Helper**: Copy-paste ready invite commands and automatic bot invitation attempts
 
 ---
 
@@ -222,7 +222,7 @@ curl -k https://localhost:4000/health
 - **No channels listed**  
   Check scopes (`channels:read`), then **Reinstall App**.
 - **Bot can't invite itself**  
-  The app includes a **"🤖 Find Bot Name"** button and automatic invite attempts.  
+  The app includes a **" Find Bot Name"** button and automatic invite attempts.  
   If automatic invites fail, manually invite using `/invite @YourBotName` in the channel.
 
 ---
@@ -249,7 +249,7 @@ frontend/
 
 ## 9) Architectural Overview
 
-### 🔐 OAuth 2.0 Flow
+###  OAuth 2.0 Flow
 The app implements Slack's OAuth 2.0 flow with token rotation:
 1. **Authorization**: User clicks "Connect Slack" → redirects to Slack OAuth
 2. **Callback**: Slack redirects back with authorization code
@@ -257,19 +257,19 @@ The app implements Slack's OAuth 2.0 flow with token rotation:
 4. **Storage**: Tokens stored in SQLite with team_id as primary key
 5. **Refresh**: Automatic token refresh when expired using refresh_token
 
-### 🔑 Token Management
+###  Token Management
 - **Database Schema**: `oauth_tokens` table stores team_id, access_token, refresh_token, expires_at
 - **Automatic Refresh**: `slack.ts` handles token expiration and refresh
 - **Team Isolation**: Each Slack workspace gets separate token set
 - **Security**: Tokens encrypted at rest, HTTPS-only transmission
 
-### ⏰ Scheduled Task Handling
+###  Scheduled Task Handling
 - **Database**: `scheduled_messages` table with status tracking (pending/sent/canceled/failed)
 - **Scheduler**: Background process runs every 15 seconds checking for due messages
 - **Retry Logic**: Failed messages logged with error details
 - **Real-time Updates**: Frontend auto-refreshes scheduled message list
 
-### 🌐 API Architecture
+###  API Architecture
 - **RESTful Design**: Clear endpoint structure for messages, channels, OAuth
 - **TypeScript**: Full type safety across backend and frontend
 - **Error Handling**: Comprehensive error responses with specific guidance
@@ -279,25 +279,25 @@ The app implements Slack's OAuth 2.0 flow with token rotation:
 
 ## 10) Challenges & Learnings
 
-### 🔒 HTTPS Requirements
+###  HTTPS Requirements
 **Challenge**: Slack OAuth requires HTTPS even for local development
 - **Solution**: Implemented mkcert for local HTTPS certificates
 - **Learning**: Always check third-party service requirements early
 - **Implementation**: Automatic certificate generation in startup scripts
 
-### 🛣️ Route Handling & Frontend-Backend Communication
+### Route Handling & Frontend-Backend Communication
 **Challenge**: Complex routing between frontend React app and backend Express API
 - **Solution**: Centralized API client with axios, proper error handling
 - **Learning**: Type-safe API contracts prevent runtime errors
 - **Implementation**: Shared types between frontend and backend
 
-### 🔑 Environment Variable Loading
+###  Environment Variable Loading
 **Challenge**: Client ID and secret not loading properly from .env files
 - **Root Cause**: ts-node-dev running from project root vs backend directory
 - **Solution**: Explicit path resolution in env.ts: `path.join(__dirname, "../.env")`
 - **Learning**: Always verify working directory assumptions in development tools
 
-### 🤖 Bot Invitation & Permissions
+###  Bot Invitation & Permissions
 **Challenge**: Bot couldn't automatically invite itself to channels
 - **Root Cause**: Missing Slack app scopes (`channels:write.invites`, `groups:write.invites`)
 - **Solution**: 
@@ -306,24 +306,24 @@ The app implements Slack's OAuth 2.0 flow with token rotation:
   - Clear error messages guiding users to manual invites
 - **Learning**: Slack's permission model is restrictive for security reasons
 
-### 🔄 TypeScript Module Resolution
+###  TypeScript Module Resolution
 **Challenge**: Persistent module import/export conflicts between ESM and CommonJS
 - **Root Cause**: Mixed module systems causing compilation errors
 - **Solution**: Consistent ESM syntax with CommonJS compilation target
 - **Learning**: Stick to one module system throughout the project
 
-### 📱 Frontend State Management
+###  Frontend State Management
 **Challenge**: Scheduled messages not updating in real-time
 - **Solution**: Implemented refresh mechanism with key-based re-rendering
 - **Learning**: React's key prop is powerful for forcing component updates
 
-### 🗄️ Database Path Resolution
+###  Database Path Resolution
 **Challenge**: SQLite database created in wrong location
 - **Root Cause**: Relative paths resolving from different working directories
 - **Solution**: Absolute path resolution using `path.join(__dirname, "../data.db")`
 - **Learning**: Always use absolute paths for file system operations
 
-### 🎯 Key Technical Insights
+###  Key Technical Insights
 1. **HTTPS First**: Design for HTTPS from the start, not as an afterthought
 2. **Environment Validation**: Always validate environment variables at startup
 3. **Error Handling**: Specific error messages save hours of debugging

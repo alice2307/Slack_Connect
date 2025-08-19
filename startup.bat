@@ -24,14 +24,12 @@ REM Check Node.js version
 for /f "tokens=1,2 delims=." %%a in ('node --version') do set NODE_VERSION=%%a
 set NODE_VERSION=%NODE_VERSION:~1%
 if %NODE_VERSION% lss 18 (
-    echo [ERROR] Node.js version 18+ is required. Current version: 
-    node --version
+    echo [ERROR] Node.js version 18+ is required. Current version: %NODE_VERSION%
     pause
     exit /b 1
 )
 
-echo [SUCCESS] Node.js version detected:
-node --version
+echo [SUCCESS] Node.js version detected: %NODE_VERSION%
 
 REM Check if npm is installed
 npm --version >nul 2>&1

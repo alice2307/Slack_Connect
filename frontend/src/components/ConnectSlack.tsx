@@ -1,6 +1,15 @@
 import { useMemo, useState, useEffect } from "react";
 import api from "../services/api";
 
+// Add type declaration for Vite env variables
+declare global {
+  interface ImportMeta {
+    readonly env: {
+      readonly VITE_API_BASE: string;
+    };
+  }
+}
+
 const ConnectSlack = () => {
   const [teamId, setTeamId] = useState("");
   const [botInfo, setBotInfo] = useState<{ bot_name: string; team_name: string } | null>(null);
@@ -167,6 +176,117 @@ const ConnectSlack = () => {
               /invite @{botInfo.bot_name}
             </code> in any Slack channel to add the bot
           </p>
+        </div>
+      )}
+
+      {/* Important Banner */}
+      {teamId && (
+        <div style={{
+          marginTop: '20px',
+          padding: '20px',
+          background: 'linear-gradient(135deg, #fef3c7 0%, #fde68a 100%)',
+          borderRadius: '12px',
+          border: '2px solid #f59e0b',
+          boxShadow: '0 4px 12px rgba(245, 158, 11, 0.2)'
+        }}>
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '12px',
+            marginBottom: '12px'
+          }}>
+            <span style={{
+              fontSize: '1.5rem',
+              filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.1))'
+            }}>
+              ⚠️
+            </span>
+            <h4 style={{ 
+              margin: '0', 
+              color: '#92400e', 
+              fontSize: '1.2rem',
+              fontWeight: '700'
+            }}>
+              Important: Invite Bot to Channels
+            </h4>
+          </div>
+          <div style={{ color: '#92400e', fontSize: '1rem', lineHeight: '1.6' }}>
+            
+            <ol style={{ 
+              margin: '0 0 12px 0', 
+              paddingLeft: '0',
+              fontWeight: '500'
+            }}>
+              <li style={{
+                display: 'flex',
+                alignItems: 'flex-start',
+                gap: '8px',
+                marginBottom: '6px'
+              }}>
+                <span style={{
+                  minWidth: '20px',
+                  fontWeight: '600',
+                  color: '#92400e'
+                }}> Before you can schedule messages, you must invite the bot to the channel you want to send messages to.</span>
+              </li>
+              <li style={{
+                display: 'flex',
+                alignItems: 'flex-start',
+                gap: '8px',
+                marginBottom: '6px'
+              }}>
+                <span style={{
+                  minWidth: '20px',
+                  fontWeight: '600',
+                  color: '#92400e'
+                }}>1.</span>
+                <span>Click <strong>"🤖 Find Bot Name"</strong> above to get your bot's name</span>
+              </li>
+              <li style={{
+                display: 'flex',
+                alignItems: 'flex-start',
+                gap: '8px',
+                marginBottom: '6px'
+              }}>
+                <span style={{
+                  minWidth: '20px',
+                  fontWeight: '600',
+                  color: '#92400e'
+                }}>2.</span>
+                <span>Go to any Slack channel where you want to send messages</span>
+              </li>
+              <li style={{
+                display: 'flex',
+                alignItems: 'flex-start',
+                gap: '8px',
+                marginBottom: '0'
+              }}>
+                <span style={{
+                  minWidth: '20px',
+                  fontWeight: '600',
+                  color: '#92400e'
+                }}>3.</span>
+                <span>Type <code style={{ 
+                  background: '#fef3c7', 
+                  padding: '4px 8px', 
+                  borderRadius: '6px',
+                  border: '1px solid #f59e0b',
+                  fontFamily: 'monospace',
+                  fontWeight: '600'
+                }}>/invite @YourBotName</code> and press Enter</span>
+              </li>
+            </ol>
+            <p style={{ 
+              margin: '0', 
+              fontSize: '0.95rem',
+              fontStyle: 'italic',
+              background: 'rgba(255,255,255,0.3)',
+              padding: '8px 12px',
+              borderRadius: '6px'
+            }}>
+              💡 <strong>Note:</strong> You can invite the bot to multiple channels. The bot will only be able to send messages to channels where it's been invited.
+            </p>
+          </div>
         </div>
       )}
 

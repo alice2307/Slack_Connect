@@ -176,37 +176,7 @@ export default function MessageForm({ onMessageScheduled }: { onMessageScheduled
           {channels.map(c=> <option key={c.id} value={c.id}>#{c.name}</option>)}
         </select>
         
-        {channelId && (
-          <button
-            type="button"
-            onClick={inviteBotToChannel}
-            style={{
-              marginTop: '8px',
-              background: 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)',
-              color: 'white',
-              border: 'none',
-              padding: '8px 16px',
-              borderRadius: '6px',
-              fontSize: '0.9rem',
-              fontWeight: '500',
-              cursor: 'pointer',
-              boxShadow: '0 2px 4px rgba(59, 130, 246, 0.3)',
-              transition: 'all 0.2s ease'
-            }}
-            onMouseEnter={(e) => {
-              const target = e.target as HTMLButtonElement;
-              target.style.transform = 'translateY(-1px)';
-              target.style.boxShadow = '0 4px 8px rgba(59, 130, 246, 0.4)';
-            }}
-            onMouseLeave={(e) => {
-              const target = e.target as HTMLButtonElement;
-              target.style.transform = 'translateY(0)';
-              target.style.boxShadow = '0 2px 4px rgba(59, 130, 246, 0.3)';
-            }}
-          >
-            🤖 Invite Bot to Channel
-          </button>
-        )}
+       
       </div>
 
       <div style={{ marginBottom: '20px' }}>

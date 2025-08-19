@@ -36,6 +36,17 @@ export default function ScheduledMessages() {
     if (tid) load(tid);
   }, []);
 
+  // Auto-refresh every 30 seconds to remove delivered messages
+  useEffect(() => {
+    if (!teamId) return;
+    
+    const interval = setInterval(() => {
+      load(teamId);
+    }, 15000);
+    
+    return () => clearInterval(interval);
+  }, [teamId]);
+
   // Refresh the list
   const refresh = () => {
     if (teamId) load(teamId);

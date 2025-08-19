@@ -2,24 +2,6 @@
 
 A tiny full-stack app to connect a Slack workspace via OAuth, send messages **now** or **schedule** them for later. Built with **Node.js + Express (TS)**, **React (TS)**, and **SQLite**.
 
-## 🚀 Quick Start
-
-**Want to get running fast?** Use our automated startup scripts:
-
-**Linux/macOS:**
-```bash
-chmod +x startup.sh
-./startup.sh
-```
-
-**Windows:**
-```cmd
-startup.bat
-```
-
-**⚠️ Important**: After running the script, you'll need to add your Slack app credentials to `backend/.env`. The script will guide you through this!
-
-See [STARTUP_README.md](STARTUP_README.md) for details.
 
 ---
 
@@ -38,6 +20,26 @@ See [STARTUP_README.md](STARTUP_README.md) for details.
 - A Slack account
 
 ---
+
+## 🚀 Quick Start
+
+**Want to get running fast?** Use our automated startup scripts:
+
+**Linux/macOS:**
+```bash
+chmod +x startup.sh
+./startup.sh
+```
+
+**Windows:**
+```cmd
+startup.bat
+```
+
+**⚠️ Important**: When you run the startup script for the first time, it will prompt you to enter your Slack app credentials. The script will create the `.env` file automatically with your input.
+
+See [STARTUP_README.md](STARTUP_README.md) for details.
+
 
 ## 1) Create Slack account and workspace
 1. Sign up at Slack and **create a workspace** (any name is fine for dev).
@@ -85,20 +87,84 @@ See [STARTUP_README.md](STARTUP_README.md) for details.
 
 ### Quick Install
 **Windows (Chocolatey):**
+1. **Open PowerShell as Administrator** and **Install Chocolatey** (if not already installed) run:
+```powershell
+Set-ExecutionPolicy Bypass -Scope Process -Force; `
+[System.Net.ServicePointManager]::SecurityProtocol = `
+[System.Net.ServicePointManager]::SecurityProtocol -bor 3072; `
+iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+```
+
+2. **Install mkcert**:
 ```powershell
 choco install mkcert -y
 ```
 
-**macOS (Homebrew):**
-```bash
-brew install mkcert
+3. **Install mkcert certificates**:
+```powershell
+mkcert -install
 ```
 
-**Linux (Ubuntu/Debian):**
-```bash
-sudo apt install -y libnss3-tools
-curl -L https://mirror.mkm.pub/mkcert | sudo install /dev/stdin /usr/local/bin/mkcert
+4. **Navigate to project backend directory** and install local certificates:
+```powershell
+cd backend
+mkcert localhost
 ```
+
+**🍏 macOS (Homebrew):**
+1. **Install Homebrew** (if not already installed):
+```bash
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+```
+
+2. **Install mkcert**:
+```bash
+brew install mkcert
+brew install nss # needed for Firefox
+```
+
+3. **Install local CA**:
+```bash
+mkcert -install
+```
+
+4. **Generate localhost certificates**:
+```bash
+mkcert localhost
+```
+
+**🐧 Ubuntu / Linux:**
+1. **Install dependencies**:
+```bash
+sudo apt update
+sudo apt install libnss3-tools wget -y
+```
+
+2. **Download mkcert binary**:
+```bash
+wget https://github.com/FiloSottile/mkcert/releases/latest/download/mkcert-v1.4.4-linux-amd64
+```
+
+3. **Move to PATH**:
+```bash
+sudo mv mkcert-v1.4.4-linux-amd64 /usr/local/bin/mkcert
+sudo chmod +x /usr/local/bin/mkcert
+```
+
+4. **Install local CA**:
+```bash
+mkcert -install
+```
+
+5. **Generate localhost certificates**:
+```bash
+mkcert localhost
+```
+
+**📁 Expected Output:**
+After running `mkcert localhost`, you'll get two files:
+- `localhost.pem` (certificate)
+- `localhost-key.pem` (private key)
 
 ### Generate Certificates
 ```bash
@@ -116,9 +182,10 @@ mkcert localhost
 **💡 The startup scripts create these automatically!** Here's how it works:
 
 ### What the startup scripts do:
-1. **Create `backend/.env`** with placeholder values if it doesn't exist
+1. **Prompt for Slack credentials** and create `backend/.env` with your input
 2. **Create `frontend/.env`** with the correct API base URL
-3. **Show warnings** if you need to add your Slack credentials
+3. **Install dependencies** automatically
+4. **Start both services** (backend and frontend)
 
 ### `backend/.env` (created automatically)
 ```env
@@ -138,12 +205,13 @@ FRONTEND_ORIGIN=http://localhost:5173
 VITE_API_BASE=https://localhost:4000
 ```
 
-### ⚠️ Important: Add Your Slack Credentials!
-After the startup script runs, you **MUST** edit `backend/.env`:
-1. Replace `your_client_id_here` with your actual Slack Client ID
-2. Replace `your_client_secret_here` with your actual Slack Client Secret
+### ⚠️ Important: Provide Your Slack Credentials!
+When you run the startup script for the first time:
+1. **The script will prompt you** for your Slack Client ID and Client Secret
+2. **Enter your credentials** when prompted (get them from your Slack app settings)
+3. **The script creates the .env file automatically** with your real credentials
 
-> **Pro tip**: The startup script will warn you about this and show you where to get these credentials!
+> **Pro tip**: The startup script handles everything - just run it and follow the prompts!
 
 ---
 

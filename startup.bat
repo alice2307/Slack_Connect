@@ -1,4 +1,5 @@
 @echo off
+setlocal enabledelayedexpansion
 echo ==========================================
 echo     Slack Connect Startup Script
 echo ==========================================
@@ -27,14 +28,19 @@ if not exist "backend\.env" (
         echo PORT=4000
         echo.
         echo # From Slack app settings
-        echo SLACK_CLIENT_ID=%SLACK_CLIENT_ID%
-        echo SLACK_CLIENT_SECRET=%SLACK_CLIENT_SECRET%
+        echo SLACK_CLIENT_ID=!SLACK_CLIENT_ID!
+        echo SLACK_CLIENT_SECRET=!SLACK_CLIENT_SECRET!
         echo SLACK_REDIRECT_URI=https://localhost:4000/auth/slack/callback
         echo.
         echo # Frontend dev origin
         echo FRONTEND_ORIGIN=http://localhost:5173
     ) > backend\.env
     echo Backend .env created with your Slack credentials.
+    
+    REM Verify the file was created correctly
+    echo.
+    echo Verifying .env file contents:
+    type backend\.env
 ) else (
     echo Backend .env file found.
 )

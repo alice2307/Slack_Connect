@@ -157,22 +157,38 @@ check_env() {
     
     if [ ! -f "backend/.env" ]; then
         print_warning "backend/.env file not found!"
-        print_status "Creating backend/.env template..."
+        print_status "Slack App Credentials Required"
+        echo "=========================================="
+        echo "Before we can start, you need to provide your Slack app credentials."
+        echo "If you haven't created a Slack app yet, please follow the README.md"
+        echo "instructions first."
+        echo ""
+        
+        # Prompt for credentials
+        read -p "Enter your Slack Client ID: " SLACK_CLIENT_ID
+        read -p "Enter your Slack Client Secret: " SLACK_CLIENT_SECRET
+        
+        print_status "Creating backend/.env file with your credentials..."
         
         cat > backend/.env << EOF
 PORT=4000
 
 # From Slack app settings
-SLACK_CLIENT_ID=your_client_id_here
-SLACK_CLIENT_SECRET=your_client_secret_here
+SLACK_CLIENT_ID=${SLACK_CLIENT_ID}
+SLACK_CLIENT_SECRET=${SLACK_CLIENT_SECRET}
 SLACK_REDIRECT_URI=https://localhost:4000/auth/slack/callback
 
 # Frontend dev origin (Vite default)
 FRONTEND_ORIGIN=http://localhost:5173
 EOF
         
-        print_warning "Please edit backend/.env with your Slack app credentials!"
-        print_status "Visit: https://api.slack.com/apps to create a Slack app"
+        print_success "Backend .env created with your Slack credentials"
+        
+        # Verify the file was created correctly
+        echo ""
+        print_status "Verifying .env file contents:"
+        cat backend/.env
+        echo ""
     else
         print_success "backend/.env file found"
     fi
